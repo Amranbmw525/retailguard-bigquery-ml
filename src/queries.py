@@ -1,17 +1,17 @@
 def hybrid_detection_create_table_query(full_dataset_id=None, full_logistic_reg_model_id=None):
-    """
-    Constructs a SQL query to create or replace a table combining predictions from a supervised
-    logistic regression model and anomaly scores from an unsupervised k-means clustering model. The
-    resulting table includes a hybrid risk label indicating the type of risk (fraud, anomaly, or normal).
+    """Build a query to create the hybrid detection table.
 
-    :param full_dataset_id: Fully qualified identifier for the dataset containing the required tables
-                            (features, kmeans_scored) in BigQuery.
-    :type full_dataset_id: str
-    :param full_logistic_reg_model_id: Fully qualified identifier for the logistic regression model
-                                       used for supervised prediction.
-    :type full_logistic_reg_model_id: str
-    :return: A formatted SQL query string to create the hybrid detection table.
-    :rtype: str
+    The table merges supervised predictions from logistic regression with
+    unsupervised anomaly scores from k-means.
+
+    Args:
+        full_dataset_id (str | None): Fully qualified dataset ID containing
+            `features` and `kmeans_scored`.
+        full_logistic_reg_model_id (str | None): Fully qualified logistic
+            regression model ID.
+
+    Returns:
+        str: SQL query to create or replace `{full_dataset_id}.hybrid_detection`.
     """
     return f"""
     CREATE OR REPLACE TABLE `{full_dataset_id}.hybrid_detection` AS
@@ -50,17 +50,14 @@ def hybrid_detection_create_table_query(full_dataset_id=None, full_logistic_reg_
 
 
 def fraud_detection_query(full_dataset_id=None):
-    """
-    Generates a SQL query to retrieve potential fraud detection records based
-    on certain conditions such as a predicted fraud flag or anomaly score threshold.
+    """Build a query to fetch suspicious rows from `hybrid_detection`.
 
-    :param full_dataset_id: The ID of the dataset containing the hybrid_detection
-        table. Defaults to None.
-    :type full_dataset_id: str or None
-    :return: A formatted SQL query string that retrieves records from the
-        hybrid_detection table where either the predicted_fraud_flag is 1
-        or the anomaly_score is greater than 4.
-    :rtype: str
+    Args:
+        full_dataset_id (str | None): Dataset containing `hybrid_detection`.
+
+    Returns:
+        str: SQL query that selects rows where `predicted_fraud_flag = 1`
+        or `anomaly_score > 4`.
     """
     return f"""
         SELECT *
@@ -72,6 +69,14 @@ def fraud_detection_query(full_dataset_id=None):
 
 
 def clustered_fraud_detection_query(full_table_id=None):
+    """Build a query to aggregate suspicious returns by product and store.
+
+    Args:
+        full_table_id (str | None): Fully qualified source table ID.
+
+    Returns:
+        str: SQL query that groups suspicious returns by product and store.
+    """
     return f"""
     SELECT
       product_id,
@@ -85,6 +90,14 @@ def clustered_fraud_detection_query(full_table_id=None):
 
 
 def defect_timeseries_query(retail_transactions_table=None):
+    """Build a time-series query for damaged returns and average price.
+
+    Args:
+        retail_transactions_table (str | None): Fully qualified transactions table ID.
+
+    Returns:
+        str: SQL query that aggregates damaged returns and avg price by date.
+    """
     return f"""
     SELECT
       product_id,
@@ -99,10 +112,27 @@ def defect_timeseries_query(retail_transactions_table=None):
 
 
 def fetch_anomalies_query(full_table_id=None):
+    """Build a query to fetch all rows from a provided table.
+
+    Args:
+        full_table_id (str | None): Fully qualified table ID.
+
+    Returns:
+        str: SQL query that selects all rows from the table.
+    """
     return f"""SELECT* FROM `{full_table_id}`;"""
 
 
 def create_table_features_query(full_features_table_id=None, full_table_id_labeled=None):
+    """Build a query to create the features table used for ML models.
+
+    Args:
+        full_features_table_id (str | None): Fully qualified output table ID.
+        full_table_id_labeled (str | None): Fully qualified labeled source table ID.
+
+    Returns:
+        str: SQL query to create or replace the features table.
+    """
     return f"""
     CREATE OR REPLACE TABLE `{full_features_table_id}` AS
     SELECT
@@ -141,6 +171,14 @@ def create_table_features_query(full_features_table_id=None, full_table_id_label
 """
 
 def fetch_hybrid_detection_query(full_dataset_id=None):
+    """Build a query to fetch hybrid detection rows with fraud probability.
+
+    Args:
+        full_dataset_id (str | None): Dataset containing `hybrid_detection`.
+
+    Returns:
+        str: SQL query for hybrid detection analytics fields.
+    """
     return f"""
     SELECT
       transaction_id,
@@ -166,6 +204,14 @@ def fetch_hybrid_detection_query(full_dataset_id=None):
     """
 
 def store_risk_query(full_dataset_id=None):
+    """Build a query to compute store/category risk aggregates.
+
+    Args:
+        full_dataset_id (str | None): Dataset containing `hybrid_detection`.
+
+    Returns:
+        str: SQL query that aggregates fraud risk by store and category.
+    """
     return f"""
     SELECT
       store_location,

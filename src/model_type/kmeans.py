@@ -1,18 +1,14 @@
 def kmeans_anomaly_model_create_query(num_clusters=5, full_table_id=None,
                                       full_kmeans_model_id="kmeans_anomaly_model"):
-    """Creates a new kmeans model in the dataset.Detect unknown / emerging anomalies.
-        ✔ Unsupervised
-        ✔ No labels required
-        ✔ Finds clusters, not fraud probabilities
-        ✔ You want anomaly detection
-        ✔ You want behavioral segmentation
-        ✔ Fraud patterns are unknown
-        Output:
-         cluster_id
-         distance_from_centroid
-         :param full_table_id:
-         :param full_kmeans_model_id:
-         :param num_clusters:
+    """Build a query to create a k-means model for anomaly detection.
+
+    Args:
+        num_clusters (int): Number of clusters to fit.
+        full_table_id (str | None): Fully qualified source table ID.
+        full_kmeans_model_id (str): Fully qualified model ID to create.
+
+    Returns:
+        str: SQL query that creates or replaces the k-means model.
     """
     return f"""
         CREATE OR REPLACE MODEL `{full_kmeans_model_id}`
@@ -31,17 +27,16 @@ def kmeans_anomaly_model_create_query(num_clusters=5, full_table_id=None,
 
 def detect_anomalies_query(contamination=0.023, full_dataset_id=None, full_table_id=None,
                            kmeans_model_id="kmeans_anomaly_model"):
-    """
-    Constructs a SQL query string for detecting anomalies using a machine learning model (KMeans)
-    and BigQuery's `ML.DETECT_ANOMALIES` function. This query extracts data, transforms it to include
-    a derived field `is_return`, and filters the result to only include rows marked as anomalies.
+    """Build a query to detect anomalies using ML.DETECT_ANOMALIES.
 
-    :param kmeans_model_id:
-    :param full_table_id:
-    :param full_dataset_id:
-    :param contamination: A float value specifying the proportion of the data expected to be
-       anomalous. Must be between 0 and 1.
-    :return: A formatted SQL query string for anomaly detection.
+    Args:
+        contamination (float): Expected anomaly proportion between 0 and 1.
+        full_dataset_id (str | None): Dataset containing the model.
+        full_table_id (str | None): Fully qualified source table ID.
+        kmeans_model_id (str): Model ID within the dataset.
+
+    Returns:
+        str: SQL query that returns only rows flagged as anomalies.
     """
     return f"""
     SELECT* 
@@ -61,14 +56,14 @@ def detect_anomalies_query(contamination=0.023, full_dataset_id=None, full_table
 
 
 def predict_fraud_query(full_dataset_id=None, kmeans_model_id="kmeans_anomaly_model"):
-    """
-    Generate a SQL query to Predict Cluster & Distance using a kmeans machine learning model and input features.
-    The query selects all columns from the prediction, including the predicted fraud flag and
-    probabilities, using a machine learning model in BigQuery to perform the predictions.
-    :param full_dataset_id:
-    :param kmeans_model_id:
-    :return: A formatted SQL query string for fraud prediction.
-    :rtype: str
+    """Build a query to run ML.PREDICT for k-means clustering output.
+
+    Args:
+        full_dataset_id (str | None): Dataset containing the features table.
+        kmeans_model_id (str): Model ID within the dataset.
+
+    Returns:
+        str: SQL query that predicts clusters and distances.
     """
     return f"""
     SELECT*,
@@ -85,21 +80,13 @@ def predict_fraud_query(full_dataset_id=None, kmeans_model_id="kmeans_anomaly_mo
 
 
 def create_table_anomaly_score_query(full_dataset_id=None):
-    """
-    Generates a SQL query for creating or replacing a table including anomaly scores
-    calculated using the k-means clustering model applied to transaction data.
+    """Build a query to create a table with anomaly scores from k-means.
 
-    This function constructs a query that applies a model to a dataset to predict
-    anomaly scores (`nearest_centroids_distance`) for provided features and stores
-    the results in a new table.
+    Args:
+        full_dataset_id (str | None): Fully qualified dataset identifier.
 
-    :param full_dataset_id: Fully qualified dataset identifier where the table
-        will be created or replaced. If not provided, an error might occur
-        during execution.
-    :type full_dataset_id: Optional[str]
-    :return: A formatted string containing the SQL query for creating or replacing
-        the table with anomaly scores.
-    :rtype: str
+    Returns:
+        str: SQL query to create or replace `{full_dataset_id}.kmeans_scored`.
     """
     return f"""
     CREATE OR REPLACE TABLE `{full_dataset_id}.kmeans_scored` AS
@@ -130,15 +117,15 @@ def create_table_anomaly_score_query(full_dataset_id=None):
 
 
 def create_table_anomaly_query(full_dataset_id=None):
-    """
-    Generates a SQL query string to retrieve rows from the `kmeans_scored` table
-    where the anomaly score exceeds a calculated threshold. The threshold is determined
-    as the average anomaly score plus three times the standard deviation of the anomaly
-    score in the table.
-    **Transactions far from cluster centroids = unusual behavior.**
-    :param full_dataset_id:
-    :return: SQL query string to select anomalous entries
-    :rtype: str
+    """Build a query to fetch rows with high anomaly scores.
+
+    The threshold is computed as AVG + 3 * STDDEV of `anomaly_score`.
+
+    Args:
+        full_dataset_id (str | None): Fully qualified dataset identifier.
+
+    Returns:
+        str: SQL query string to select anomalous entries.
     """
     return f"""
         SELECT*

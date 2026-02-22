@@ -1,16 +1,12 @@
 def create_model_log_reg_query(full_dataset_id=None,full_logistic_reg_model_id=None):
-    """Creates a new Logistic Regression model in the dataset.Detect known fraud patterns.
-        ✔ You know which transactions are fraud
-        ✔ You can train a classifier
-        ✔ You can evaluate accuracy
-        Predict:Probability (transaction is fraud)
+    """Build a query to create a logistic regression model in BigQuery ML.
 
-        :param full_dataset_id:
-        :param full_logistic_reg_model_id:
+    Args:
+        full_dataset_id (str | None): Fully qualified dataset ID containing `features`.
+        full_logistic_reg_model_id (str | None): Fully qualified model ID to create.
 
-        Output:
-         predicted_fraud_flag
-         predicted_probability
+    Returns:
+        str: SQL query that creates or replaces the logistic regression model.
     """
     return f"""
         CREATE OR REPLACE MODEL `{full_logistic_reg_model_id}`
@@ -33,16 +29,13 @@ def create_model_log_reg_query(full_dataset_id=None,full_logistic_reg_model_id=N
 
 
 def evaluate_logistic_reg_model_query(full_logistic_reg_model_id=None):
-    """
-    Generates and returns a SQL query string to evaluate a machine learning model.
-    The query uses the `ML.EVALUATE` function to assess the performance of the
-    `logistic_reg_fraud_model` of the specified dataset.
+    """Build a query to evaluate a logistic regression model with ML.EVALUATE.
 
-    :param full_logistic_reg_model_id: The fully qualified dataset ID from which the
-        machine learning model resides. Defaults to None.
-    :type full_logistic_reg_model_id: str or None
-    :return: A SQL query string that evaluates the specified machine learning model.
-    :rtype: str
+    Args:
+        full_logistic_reg_model_id (str | None): Fully qualified model ID.
+
+    Returns:
+        str: SQL query that evaluates the specified model.
     """
     return f"""
     SELECT*
@@ -51,6 +44,15 @@ def evaluate_logistic_reg_model_query(full_logistic_reg_model_id=None):
 
 
 def predict_fraud_risk_query(full_dataset_id=None, full_logistic_reg_model_id=None):
+    """Build a query to generate fraud risk predictions.
+
+    Args:
+        full_dataset_id (str | None): Fully qualified dataset ID containing `features`.
+        full_logistic_reg_model_id (str | None): Fully qualified model ID.
+
+    Returns:
+        str: SQL query that runs ML.PREDICT against the features table.
+    """
     return f"""
     SELECT*,
       predicted_fraud_flag,

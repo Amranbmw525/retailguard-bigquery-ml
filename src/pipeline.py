@@ -3,6 +3,15 @@ from src.google_cloud import run_query, ensure_dataset, ensure_transactions_load
     eval_logreg, train_logreg, score_kmeans, build_hybrid
 
 def _run_step(step_name, fn):
+    """Run a pipeline step with standardized logging and error handling.
+
+    Args:
+        step_name (str): Human-friendly label for the step.
+        fn (Callable[[], Any]): Zero-arg callable that performs the step.
+
+    Raises:
+        Exception: Re-raises any exception thrown by the step function.
+    """
     print(f"{step_name}...")
     try:
         fn()
@@ -13,6 +22,7 @@ def _run_step(step_name, fn):
 
 
 def run_pipeline():
+    """Run the end-to-end ML pipeline in a fixed, ordered sequence."""
     _run_step("Creating dataset", ensure_dataset)
     _run_step("Creating transactions table", ensure_transactions_loaded)
     _run_step("Building features", build_features)

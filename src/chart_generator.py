@@ -14,16 +14,28 @@ OUT_DIR = "images"
 
 
 def _ensure_out_dir():
+    """Create the output directory if it does not exist."""
     os.makedirs(OUT_DIR, exist_ok=True)
 
 
 def _save(fig, filename):
+    """Save a matplotlib figure to the output directory.
+
+    Args:
+        fig (matplotlib.figure.Figure): Figure to write to disk.
+        filename (str): Output filename under OUT_DIR.
+    """
     path = os.path.join(OUT_DIR, filename)
     fig.savefig(path, dpi=300, bbox_inches="tight")
     print(f"Saved: {path}")
 
 
 def generate_charts():
+    """Generate and save all report charts from BigQuery-derived dataframes.
+
+    Returns:
+        None
+    """
     _ensure_out_dir()
     sns.set_theme(style="whitegrid", context="talk")
 

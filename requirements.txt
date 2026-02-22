@@ -1,3 +1,4 @@
+numpy
 protobuf
 google-cloud-bigquery
 pandas~=2.3.3

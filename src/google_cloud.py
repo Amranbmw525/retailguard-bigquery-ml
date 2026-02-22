@@ -23,11 +23,28 @@ full_features_table_id = f"{client.project}.{dataset_id}.{features_table_id}"
 
 
 def run_query(query, job_config=None):
+    """Run a BigQuery SQL query and wait for completion.
+
+    Args:
+        query (str): SQL to execute.
+        job_config (google.cloud.bigquery.job.QueryJobConfig | None): Optional job config.
+
+    Returns:
+        google.cloud.bigquery.table.RowIterator: Query results iterator.
+    """
     job = client.query(query, job_config=job_config)
     return job.result()
 
 
 def get_df(query):
+    """Run a BigQuery SQL query and return a pandas dataframe.
+
+    Args:
+        query (str): SQL to execute.
+
+    Returns:
+        pandas.DataFrame: Query results as a dataframe.
+    """
     return client.query(query).to_dataframe()
 
 
@@ -35,18 +52,16 @@ def get_df(query):
 
 
 def ensure_dataset(location='US'):
-    """
-    Creates a BigQuery dataset if it does not already exist.
+    """Create the BigQuery dataset if it does not already exist.
 
-    This function checks if a dataset with the provided `dataset_id` exists in the specified
-    Google Cloud project. If the dataset does not exist, it creates a new dataset in the given
-    location. If the dataset already exists, informs the user. Handles creation conflicts and
-    other potential errors gracefully.
+    The dataset ID is derived from the module-level `dataset_id` and current
+    project configured in the BigQuery client.
 
-    :param dataset_id: The identifier for the BigQuery dataset in the format `<dataset_id>`.
-    :param location: The geographic location where the dataset should be stored. Default is "US".
-    :type location: str
-    :return: None
+    Args:
+        location (str): Geographic location for the dataset. Defaults to "US".
+
+    Returns:
+        None
     """
     dataset = bigquery.Dataset(full_dataset_id)
     dataset.location = location
@@ -62,6 +77,11 @@ def ensure_dataset(location='US'):
 
 
 def ensure_transactions_loaded():
+    """Ensure the transactions table exists by loading CSV data if needed.
+
+    Returns:
+        None
+    """
     transactions_file_path = "./data/retail_transactions_simulated.csv"
     try:
         table = client.get_table(transactions_table_full_id)
@@ -89,45 +109,55 @@ def ensure_transactions_loaded():
 
 
 def build_features():
+    """Create or replace the features table used for model training."""
     # Source features from the table actually loaded by `ensure_transactions_loaded`.
     run_query(create_table_features_query(full_features_table_id, transactions_table_full_id))
 
 
 def train_logreg():
+    """Create or replace the logistic regression model."""
     run_query(create_model_log_reg_query(full_dataset_id, full_logistic_reg_model_id))
 
 
 def eval_logreg():
+    """Evaluate the logistic regression model with ML.EVALUATE."""
     run_query(evaluate_logistic_reg_model_query(full_logistic_reg_model_id))
 
 
 def train_kmeans():
+    """Create or replace the k-means anomaly model."""
     run_query(
         kmeans_anomaly_model_create_query(full_table_id=f"{full_dataset_id}.features",
                                           full_kmeans_model_id=full_kmeans_model_id))
 
 
 def score_kmeans():
+    """Create or replace the k-means scored table."""
     run_query(create_table_anomaly_score_query(full_dataset_id))
 
 
 def build_hybrid():
+    """Create or replace the hybrid detection table."""
     run_query(hybrid_detection_create_table_query(full_dataset_id, full_logistic_reg_model_id))
 
 
 def get_df_hybrid_detection():
+    """Fetch hybrid detection rows as a dataframe."""
     return get_df(fetch_hybrid_detection_query(full_dataset_id))
 
 
 def get_df_store_risk():
+    """Fetch store risk aggregates as a dataframe."""
     return get_df(store_risk_query(full_dataset_id))
 
 
 def get_df_defect_timeseries():
+    """Fetch defect time-series aggregates as a dataframe."""
     return get_df(defect_timeseries_query(transactions_table_full_id))
 
 
 def get_df_anomalies():
+    """Fetch anomaly-focused fields from the hybrid detection table."""
     query = f"""
     SELECT
       product_id,

@@ -193,6 +193,13 @@ This architecture can evolve into a reusable monitoring system capable of:
 
 ---
 
+## 🧪 Development
+
+- Install dev tooling: `pip install -r requirements-dev.txt`  
+- Docstring lint: `python -m pydocstyle src`  
+
+---
+
 ## ⭐ Why This Project Matters
 
 RetailGuard demonstrates practical Data Science beyond model training:
