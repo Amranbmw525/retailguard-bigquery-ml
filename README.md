@@ -70,7 +70,6 @@ Both models are merged into a single analytical dataset:
 
 ---
 
-```md
 ## 🏗️ Architecture Overview
 
 ```mermaid
@@ -94,6 +93,7 @@ D --> G
 F --> G
 C --> G
 G --> H
+```
 
 
 ## 🏗️ Data Layers
