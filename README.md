@@ -54,7 +54,7 @@ Detects unknown or emerging anomalies by measuring distance from normal purchasi
 
 Outputs:
 - `anomaly_score` (centroid distance)
-- Behavioral outliers not present in training labels
+- Behavioral outliers are not present in training labels
 
 ### Hybrid Risk Layer (Gold Table)
 
@@ -62,10 +62,10 @@ Both models are merged into a single analytical dataset:
 
 
 
-| Scenario | Detection Method |
-|---|---|
-| Known refund abuse | Logistic Regression |
-| Emerging fraud tactics | KMeans anomaly scoring |
+| Scenario                 | Detection Method            |
+|--------------------------|-----------------------------|
+| Known refund abuse       | Logistic Regression         |
+| Emerging fraud tactics   | KMeans anomaly scoring      |
 | Product quality failures | Time-series defect analysis |
 
 ---
@@ -161,15 +161,15 @@ All ML training occurs directly inside BigQuery.
 
 ## 🧰 Technical Stack
 
-| Component | Technology |
-|---|---|
-| Cloud Platform | Google Cloud Platform |
-| Data Warehouse | BigQuery |
-| ML Engine | BigQuery ML |
-| Models | Logistic Regression + KMeans |
-| Visualization | Python (Seaborn, Matplotlib) |
-| Languages | SQL, Python |
-| Dataset | 120k synthetic retail transactions |
+| Component      | Technology                         |
+|----------------|------------------------------------|
+| Cloud Platform | Google Cloud Platform              |
+| Data Warehouse | BigQuery                           |
+| ML Engine      | BigQuery ML                        |
+| Models         | Logistic Regression + KMeans       |
+| Visualization  | Python (Seaborn, Matplotlib)       |
+| Languages      | SQL, Python                        |
+| Dataset        | 120k synthetic retail transactions |
 
 ---
 
